@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { CustomerEntity } from "./customer-entity";
-import { Customer } from "../models/customer";
+import { Customer } from "../../models/customer";
 
 export const handler = async(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const lookup = {

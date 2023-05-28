@@ -14,7 +14,7 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const putCustomerHandler = new NodejsFunction(this, "PutHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
-      entry: "./lambda/put-customer.ts",
+      entry: "./src/lambda/put-customer.ts",
       handler: "handler",
       bundling: {
         minify: true,
@@ -24,7 +24,7 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const getCustomerHandler = new NodejsFunction(this, "GetHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
-      entry: "./lambda/get-customer.ts",
+      entry: "./src/lambda/get-customer.ts",
       handler: "handler",
       bundling: {
         minify: true,
