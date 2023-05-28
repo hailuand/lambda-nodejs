@@ -17,18 +17,10 @@ export class CustomerApi extends Construct {
         });
         const customerApi = api.root.addResource("customer");
 
-        const putCustomerApi = new LambdaIntegration(props!.putLambda, {
-            requestTemplates: {
-                "application/json": "{ statusCode: 200 }",
-            },
-        })
+        const putCustomerApi = new LambdaIntegration(props!.putLambda);
         customerApi.addResource("put").addMethod("PUT", putCustomerApi);
 
-        const getCustomerApi = new LambdaIntegration(props!.getLambda, {
-            requestTemplates: {
-                "application/json": "{ statusCode: 200 }",
-            },
-        });
+        const getCustomerApi = new LambdaIntegration(props!.getLambda);
         customerApi.addResource("getCustomer").addMethod("GET", getCustomerApi);
     }
 }

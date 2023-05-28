@@ -1,7 +1,7 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { CustomerEntity } from "./customer-entity";
-import { Customer } from "/opt/models"
+import { Customer } from "../models/customer";
 
 export const handler: Handler = async(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const customer = new Customer(123,

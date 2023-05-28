@@ -6,10 +6,6 @@
       "es2020",
       "dom"
     ],
-    "baseUrl": "./",
-    "paths": {
-      "/opt/models": [ "layers/models/models" ], // Required for Models layer
-    },    
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,

@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { Runtime, LayerVersion, Code } from 'aws-cdk-lib/aws-lambda';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, SourceMapMode } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from 'constructs';
 import { CustomerTableDefn } from './customer-table-defn';
@@ -12,18 +12,10 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const tableDefn = new CustomerTableDefn(this, "CustomerTableDefn");
 
-    const modelsLayer = new LayerVersion(this, "ModelsLayer", {
-      compatibleRuntimes: [ Runtime.NODEJS_18_X ],
-      layerVersionName: "ModelsLayer",
-      code: Code.fromAsset("layers/models"),
-      description: "Application models layer"
-    });
-
     const putCustomerHandler = new NodejsFunction(this, "PutHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
       entry: "./lambda/put-customer.ts",
       handler: "handler",
-      layers: [ modelsLayer ],
       bundling: {
         minify: true,
         sourceMap: true,
@@ -35,11 +27,9 @@ export class CdkDynamodToolboxStack extends Stack {
       runtime: Runtime.NODEJS_18_X,
       entry: "./lambda/get-customer.ts",
       handler: "handler",
-      layers: [ modelsLayer ],
       bundling: {
         minify: true,
-        sourceMap: true,
-        sourceMapMode: SourceMapMode.INLINE
+        sourceMap: true
       }
     });
 
