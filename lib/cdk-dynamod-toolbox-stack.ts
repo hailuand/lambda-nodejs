@@ -18,8 +18,7 @@ export class CdkDynamodToolboxStack extends Stack {
       handler: "handler",
       bundling: {
         minify: true,
-        sourceMap: true,
-        sourceMapMode: SourceMapMode.INLINE
+        sourceMap: true
       }
     });
 
