@@ -29,6 +29,8 @@
     "aws-cdk-lib": "2.81.0",
     "constructs": "^10.2.35",
     "dynamodb-toolbox": "^0.8.5",
-    "source-map-support": "^0.5.21"
+    "pino": "^8.14.1",
+    "source-map-support": "^0.5.21",
+    "winston": "^3.9.0"
   }
 }
