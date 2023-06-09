@@ -4,42 +4,47 @@ import { Customer, CustomerSchema } from "../../models/customer";
 import Ajv from "ajv";
 import winston = require("winston");
 import { pino } from "pino";
+import { lambdaRequestTracker, pinoLambdaDestination } from "pino-lambda";
 
 const ajv = new Ajv({
     allErrors: true
 });
 const validateCustomer = ajv.compile(CustomerSchema);
-const logger = winston.createLogger({
-    level: "info",
-    format: winston.format.json(),
-    transports: [
-        new winston.transports.Console()
-    ]
-});
-// const logger = pino({
-//     timestamp: pino.stdTimeFunctions.isoTime,
-//     base: undefined, // removes pid + hostname
-//     formatters: {
-//         level(level) { // uses text instead of numerical level representation
-//             return {level};
-//         }
-//     }
+// const logger = winston.createLogger({
+//     level: "info",
+//     format: winston.format.json(),
+//     transports: [
+//         new winston.transports.Console()
+//     ]
 // });
+
+const logger = pino({
+    timestamp: pino.stdTimeFunctions.isoTime,
+    base: undefined, // removes pid + hostnamef
+    formatters: {
+        level(level) { // uses text instead of numerical level representation
+            return {level};
+        }
+    }
+}, pinoLambdaDestination());
+const withRequest = lambdaRequestTracker();
+
 // Log even uncaught exceptions
 process.on('uncaughtException', (err) => {
-    // logger.fatal(err);
-    logger.crit(err);
+    logger.fatal(err);
+    // logger.crit(err);
     process.exit(1);
   });
   
   process.on('unhandledRejection', (err) => {
-    // logger.fatal(err);
-    logger.crit(err);
+    logger.fatal(err);
+    // logger.crit(err);
     process.exit(1);
   });
 
 export const handler = async(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
-    logger.defaultMeta = {requestId: context.awsRequestId};
+    // logger.defaultMeta = {requestId: context.awsRequestId};
+    withRequest(event, context);
     
     let body;
     
@@ -56,7 +61,7 @@ export const handler = async(event: APIGatewayProxyEvent, context: Context): Pro
         }
     }
     logger.info("Testing testing 123!");
-    logger.info(`Raw: ${JSON.stringify(body, undefined, 2)}`);
+    logger.info({ data: body }, "Raw");
 
     if(!validateCustomer(body)) {
         // const errors: string[] = [];
