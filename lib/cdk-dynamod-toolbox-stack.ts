@@ -4,7 +4,7 @@ import { NodejsFunction, SourceMapMode } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from 'constructs';
 import { CustomerTableDefn } from './customer-table-defn';
 import { CustomerApi } from './customer-api';
-
+import * as lambda from 'aws-cdk-lib/aws-lambda'
 
 export class CdkDynamodToolboxStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -12,14 +12,10 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const tableDefn = new CustomerTableDefn(this, "CustomerTableDefn");
 
-    const putCustomerHandler = new NodejsFunction(this, "PutHandlerNjs", {
+    const putCustomerHandler = new lambda.Function(this, "PutHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
-      entry: "./src/lambda/put-customer.ts",
-      handler: "handler",
-      bundling: {
-        minify: true,
-        sourceMap: true
-      }
+      code: lambda.Code.fromAsset("./dist/lambda/put-customer"),
+      handler: "put-customer.handler",
     });
 
     const getCustomerHandler = new NodejsFunction(this, "GetHandlerNjs", {

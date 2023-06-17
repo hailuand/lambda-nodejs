@@ -13,9 +13,12 @@ export const handler: Handler = async(event: APIGatewayProxyEvent): Promise<APIG
         "2020-04-24");
     try {
         console.log(`Writing ${JSON.stringify(customer, undefined, 2)} to DynanoDB`);
+        const res = await CustomerEntity.put(customer, {
+            conditions: { attr: 'age', eq: 0 }
+        });
         return {
             statusCode: 200,
-            body: JSON.stringify(await CustomerEntity.put(customer), undefined, 2)
+            body: JSON.stringify(res, undefined, 2)
         }
     }
     catch(err) {
