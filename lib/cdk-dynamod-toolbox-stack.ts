@@ -14,7 +14,7 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const putCustomerHandler = new lambda.Function(this, "PutHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
-      code: lambda.Code.fromAsset("./dist/lambda/put-customer"),
+      code: lambda.Code.fromAsset("./dist/lambda/put-customer.zip"),
       handler: "put-customer.handler",
     });
 
