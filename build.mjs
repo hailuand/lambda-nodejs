@@ -19,7 +19,7 @@ files.forEach(async f => {
         outdir: srcOut,
         bundle: true,
         minify: true,
-        sourcemap: "external",
+        sourcemap: true,
         treeShaking: true,
         platform: "node",
         target: "node18",

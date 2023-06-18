@@ -5,17 +5,17 @@
     "cdk-dynamod-toolbox": "bin/cdk-dynamod-toolbox.js"
   },
   "scripts": {
-    "build": "tsc --noEmit && node build.mjs",
+    "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "package": "npm run clean && node build.mjs" 
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.119",
     "@types/jest": "^29.5.2",
     "@types/node": "20.3.1",
-    "archiver": "^5.3.1",
     "esbuild": "^0.18.4",
     "jest": "^29.5.0",
     "npm-check-updates": "^16.10.12",

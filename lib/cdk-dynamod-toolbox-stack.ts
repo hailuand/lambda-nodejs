@@ -14,8 +14,11 @@ export class CdkDynamodToolboxStack extends Stack {
 
     const putCustomerHandler = new lambda.Function(this, "PutHandlerNjs", {
       runtime: Runtime.NODEJS_18_X,
-      code: lambda.Code.fromAsset("./dist/lambda/put-customer.zip"),
+      code: lambda.Code.fromAsset("./dist/lambda/archive/put-customer.zip"),
       handler: "put-customer.handler",
+      environment: {
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+      }
     });
 
     const getCustomerHandler = new NodejsFunction(this, "GetHandlerNjs", {
